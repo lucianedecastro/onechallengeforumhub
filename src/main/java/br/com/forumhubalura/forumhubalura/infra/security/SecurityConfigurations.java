@@ -1,7 +1,9 @@
 package br.com.forumhubalura.forumhubalura.infra.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,14 +17,21 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfigurations {
 
+    @Autowired // Injeta seu filtro de segurança
+    private SecurityFilter securityFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable()) // Desabilita proteção CSRF para APIs stateless
+        return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers("/login").permitAll(); // Permite acesso público ao endpoint de login
-                    req.anyRequest().authenticated(); // Todas as outras requisições exigem autenticação
+                    req.requestMatchers(HttpMethod.POST, "/login").permitAll();
+
+                    req.requestMatchers("/h2-console/**").permitAll();
+                    req.anyRequest().authenticated();
                 })
+
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
                 .build();
     }
 
