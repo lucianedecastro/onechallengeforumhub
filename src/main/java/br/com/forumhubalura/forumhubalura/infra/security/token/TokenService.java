@@ -15,17 +15,17 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService {
 
-    @Value("${api.security.token.secret}") // Injeta a chave secreta do application.properties
+    @Value("${api.security.token.secret}")
     private String secret;
 
     public String gerarToken(Usuario usuario) {
         try {
-            Algorithm algoritmo = Algorithm.HMAC256(secret); // Algoritmo de assinatura com a chave secreta
+            Algorithm algoritmo = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withIssuer("API ForumHub Alura") // Emissor do token
-                    .withSubject(usuario.getLogin()) // Sujeito do token (quem é o usuário)
-                    .withExpiresAt(dataExpiracao()) // Data de expiração
-                    .sign(algoritmo); // Assina o token
+                    .withIssuer("API ForumHub Alura")
+                    .withSubject(usuario.getLogin())
+                    .withExpiresAt(dataExpiracao())
+                    .sign(algoritmo);
         } catch (JWTCreationException exception){
             throw new RuntimeException("Erro ao gerar token JWT", exception);
         }
@@ -37,15 +37,15 @@ public class TokenService {
             return JWT.require(algoritmo)
                     .withIssuer("API ForumHub Alura")
                     .build()
-                    .verify(tokenJWT) // Verifica se o token é válido e assinado corretamente
-                    .getSubject(); // Retorna o sujeito (login do usuário)
+                    .verify(tokenJWT)
+                    .getSubject();
         } catch (JWTVerificationException exception){
-            // Token inválido ou expirado
+
             throw new RuntimeException("Token JWT inválido ou expirado!");
         }
     }
 
     private Instant dataExpiracao() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00")); // Token expira em 2 horas
+        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 }

@@ -18,13 +18,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Usuario implements UserDetails { // Implementa UserDetails do Spring Security
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String login;
-    private String senha; // Este campo armazenará a senha HASHED
+    private String senha;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -44,21 +44,21 @@ public class Usuario implements UserDetails { // Implementa UserDetails do Sprin
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // Conta nunca expira
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // Conta nunca é bloqueada
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // Credenciais nunca expiram
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // Usuário está habilitado
+        return true;
     }
 }

@@ -1,7 +1,8 @@
 package br.com.forumhubalura.forumhubalura.controller;
 
-import br.com.forumhubalura.forumhubalura.domain.usuario.Usuario;
 import br.com.forumhubalura.forumhubalura.domain.usuario.dto.DadosAutenticacao;
+import br.com.forumhubalura.forumhubalura.domain.usuario.Usuario;
+import br.com.forumhubalura.forumhubalura.infra.security.token.DadosTokenJWT;
 import br.com.forumhubalura.forumhubalura.infra.security.token.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import br.com.forumhubalura.forumhubalura.infra.security.token.DadosTokenJWT;
 
 @RestController
 @RequestMapping("/login")
@@ -26,11 +26,16 @@ public class AutenticacaoController {
 
     @PostMapping
     public ResponseEntity<DadosTokenJWT> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
+
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+
+
         var authentication = manager.authenticate(authenticationToken);
 
-        var tokenJWT = tokenService.gerarToken((br.com.forumhubalura.forumhubalura.domain.usuario.Usuario) authentication.getPrincipal());
 
-        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT)); // Modificado para retornar DadosTokenJWT
+        var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+
+
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 }
