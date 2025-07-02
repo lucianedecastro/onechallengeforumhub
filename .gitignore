@@ -44,3 +44,5 @@ Thumbs.db
 *.zip
 *.tar.gz
 nohup.out
+
+application-mysql.properties
