@@ -1,0 +1,46 @@
+# Arquivos de Build do Maven/Gradle
+/target/
+/build/ # Para projetos Gradle, se você usar
+
+# Arquivos de IDE (IntelliJ IDEA)
+.idea/
+*.iml
+*.iws
+*.ipr
+/out/ # Pasta de saída de compilação do IntelliJ
+
+# Arquivos de IDE (Eclipse/STS - se usar)
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+
+# Arquivos de IDE (NetBeans - se usar)
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Arquivos de IDE (VS Code - se usar)
+.vscode/
+
+# Logs
+*.log
+logs/
+
+# Arquivos de Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Maven Wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# Arquivos compilados/executáveis
+*.jar
+*.war
+*.zip
+*.tar.gz
+nohup.out
